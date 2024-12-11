@@ -1,3 +1,3 @@
 # Dotfiles
 
-My personal dotfiles :3
+My personal linux dotfiles :3
