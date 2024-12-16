@@ -36,10 +36,10 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -55,8 +55,10 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run -b
+# bindsym $mod+d exec --no-startup-id dmenu_run -l 3 -nb '#0a0a0a' -sb '#4f4f4f'
+
 # A more modern dmenu replacement is rofi:
+bindsym $mod+d exec --no-startup-id rofi -show run
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
@@ -164,16 +166,16 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym j resize shrink width 5 px or 5 ppt
+        bindsym k resize grow height 5 px or 5 ppt
+        bindsym l resize shrink height 5 px or 5 ppt
+        bindsym semicolon resize grow width 5 px or 5 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 5 px or 5 ppt
+        bindsym Down resize grow height 5 px or 5 ppt
+        bindsym Up resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
@@ -189,7 +191,14 @@ default_border pixel 2
 
 # window colors
 
-client.focused #ffffff #000000 #ffffff #ffffff #ffffff
+# class                 border  backgr. text    indicator child_border
+client.focused          #cccccc #000000 #ffffff #cccccc   #cccccc
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -214,7 +223,8 @@ bar {
 	#i3bar_command i3bar --transparency
 
 	# system tray
-	#tray_output primary
+	
+	tray_output primary
 
 	# padding top/bottom only
 	#padding 5px 0
@@ -222,9 +232,12 @@ bar {
 }
 
 # autostart
-exec --no-startup-id nitrogen --restore
-exec --no-startup-id picom
+# exec --no-startup-id nitrogen --restore
+exec --no-startup-id picom -b
 exec --no-startup-id redshift-gtk
+exec --no-startup-id feh --bg-fill /home/foolish/Pictures/Wallpapers/cherry.jpg
+exec --no-startup-id blueman-applet
+exec --no-startup-id
 
 # gaps
 gaps inner 3px
@@ -233,3 +246,17 @@ gaps outer 3px
 # move workspaces between monitors
 bindsym $mod+shift+a move workspace to output right
 bindsym $mod+shift+f move workspace to output left
+
+# audio control
+bindsym F10 exec --no-startup-id amixer -q set Master 5%+
+bindsym F9 exec --no-startup-id amixer -q set Master 5%- & $refresh_i3status
+bindsym F8 exec --no-startup-id amixer -q set Master toggle & $refresh_i3status
+
+# brightness control
+# bindysm $mod+shift+F7 exec --no-startup-id brightnessctl set 5%+
+# bindysm $mod+shift+F6 exec --no-startup-id brightnessctl set 5%-
+bindsym F7 exec --no-startup-id brightnessctl set 5%+
+bindsym F6 exec --no-startup-id brightnessctl set 5%-
+
+# whisker menu
+bindsym $super exec --no-startup-id xfce4-popup-whiskermenu
