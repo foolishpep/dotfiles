@@ -232,12 +232,11 @@ bar {
 }
 
 # autostart
-# exec --no-startup-id nitrogen --restore
+exec --no-startup-id nitrogen --restore
 exec --no-startup-id picom -b
 exec --no-startup-id redshift-gtk
-exec --no-startup-id feh --bg-fill /home/foolish/Pictures/Wallpapers/cherry.jpg
 exec --no-startup-id blueman-applet
-exec --no-startup-id
+# exec --no-startup-id feh --bg-fill
 
 # gaps
 gaps inner 3px
@@ -253,10 +252,15 @@ bindsym F9 exec --no-startup-id amixer -q set Master 5%- & $refresh_i3status
 bindsym F8 exec --no-startup-id amixer -q set Master toggle & $refresh_i3status
 
 # brightness control
-# bindysm $mod+shift+F7 exec --no-startup-id brightnessctl set 5%+
-# bindysm $mod+shift+F6 exec --no-startup-id brightnessctl set 5%-
 bindsym F7 exec --no-startup-id brightnessctl set 5%+
 bindsym F6 exec --no-startup-id brightnessctl set 5%-
 
 # whisker menu
-bindsym $super exec --no-startup-id xfce4-popup-whiskermenu
+bindsym $mod+x exec --no-startup-id xfce4-popup-whiskermenu
+
+# external display
+bindsym $mod+Shift+o exec --no-startup-id xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --off --output VIRTUAL1 --off
+bindsym $mod+Shift+p exec --no-startup-id xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal --output VIRTUAL1 --off
+
+# reset nitrogen
+bindsym $mod+Shift+i exec --no-startup-id nitrogen --restore
