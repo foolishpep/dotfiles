@@ -241,15 +241,19 @@ exec --no-startup-id redshift-gtk
 exec --no-startup-id blueman-applet
 exec --no-startup-id xfce4-panel
 exec --no-startup-id xfce4-power-manager
+exec --no-startup-id light-locker
 # exec --no-startup-id feh --bg-fill
 
 # gaps
 gaps inner 3px
 gaps outer 3px
 
+#lock screen
+bindsym Ctrl+Shift+l xflock4
+
 # move workspaces between monitors
-bindsym $mod+shift+a move workspace to output right
-bindsym $mod+shift+f move workspace to output left
+bindsym $mod+Shift+a move workspace to output right
+bindsym $mod+Shift+f move workspace to output left
 
 # audio control
 bindsym F10 exec --no-startup-id amixer -q set Master 5%+
