@@ -256,7 +256,7 @@ bindsym $mod+Shift+a move workspace to output right
 bindsym $mod+Shift+f move workspace to output left
 
 # audio control
-bindsym F10 exec --no-startup-id amixer -q set Master 5%+
+bindsym F10 exec --no-startup-id amixer -q set Master 5%+ & $refresh_i3status
 bindsym F9 exec --no-startup-id amixer -q set Master 5%- & $refresh_i3status
 bindsym F8 exec --no-startup-id amixer -q set Master toggle & $refresh_i3status
 
