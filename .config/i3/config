@@ -286,9 +286,6 @@ bindsym F7 exec --no-startup-id brightnessctl set 5%+ && \
 bindsym F6 exec --no-startup-id brightnessctl set 5%- && \
     notify-send -t 500 -u low -h int:value:"$(brightnessctl g | awk -v max=$(brightnessctl m) '{print int(($1/max)*100)}')" "Brightness" -r 9999
 
-# whisker menu
-# bindsym $mod+Shift+x exec --no-startup-id xfce4-popup-whiskermenu
-
 # external display with dunst notifications
 bindsym $mod+Shift+o exec --no-startup-id xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --off --output VIRTUAL1 --off && \
     notify-send -t 500 "External Display Off" -r 9999
