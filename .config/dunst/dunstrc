@@ -51,7 +51,7 @@
     show_indicators = yes
     # enable_recursive_icon_lookup = true
     # icon_theme = "breeze-dark, Papirus-Dark"
-    # icon_position = left
+    icon_position = off
     # min_icon_size = 48
     # max_icon_size = 128
     # icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
