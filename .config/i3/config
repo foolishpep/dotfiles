@@ -257,9 +257,13 @@ bindsym $mod+Shift+a move workspace to output right
 bindsym $mod+Shift+f move workspace to output left
 
 # audio control
-bindsym F10 exec --no-startup-id amixer -q set Master 5%+ & $refresh_i3status
-bindsym F9 exec --no-startup-id amixer -q set Master 5%- & $refresh_i3status
-bindsym F8 exec --no-startup-id amixer -q set Master toggle & $refresh_i3status
+bindsym F10 exec --no-startup-id amixer -q set Master 5%+
+bindsym F9 exec --no-startup-id amixer -q set Master 5%-
+bindsym F8 exec --no-startup-id amixer -q set Master toggle
+
+bindsym $mod+F10 exec --no-startup-id amixer -q set Capture 5%+
+bindsym $mod+F9 exec --no-startup-id amixer -q set Capture 5%-
+bindsym $mod+F8 exec --no-startup-id amixer -q set Capture toggle
 
 # brightness control
 bindsym F7 exec --no-startup-id brightnessctl set 5%+
