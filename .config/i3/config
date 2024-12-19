@@ -28,11 +28,9 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
-# use xflock4 in place of i3lock
-exec --no-startup-id xss-lock --transfer-sleep-lock -- xflock4 --nofork
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
+# NetworkManager is the most popular to way manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
@@ -236,45 +234,64 @@ bar {
 
 # autostart
 exec --no-startup-id nitrogen --restore
-exec --no-startup-id picom -b
+exec --no-startup-id picom
 exec --no-startup-id redshift-gtk
+# exec --no-startup-id xfce4-panel
 exec --no-startup-id blueman-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id light-locker
-exec --no-startup-id dunst
+exec dunst
 # exec --no-startup-id feh --bg-fill
-# exec --no-startup-id xfce4-panel
 
 # gaps
 gaps inner 3px
 gaps outer 3px
 
-#lock screen
-bindsym Ctrl+Shift+l xflock4
+# lock screen
+bindsym Ctrl+Shift+l exec --no-startup-id xflock4
 
 # move workspaces between monitors
-bindsym $mod+Shift+a move workspace to output right
-bindsym $mod+Shift+f move workspace to output left
+bindsym $mod+shift+a move workspace to output right
+bindsym $mod+shift+f move workspace to output left
 
 # audio control
-bindsym F10 exec --no-startup-id amixer -q set Master 5%+
-bindsym F9 exec --no-startup-id amixer -q set Master 5%-
-bindsym F8 exec --no-startup-id amixer -q set Master toggle
 
-bindsym $mod+F10 exec --no-startup-id amixer -q set Capture 5%+
-bindsym $mod+F9 exec --no-startup-id amixer -q set Capture 5%-
-bindsym $mod+F8 exec --no-startup-id amixer -q set Capture toggle
+#master channel with dunst notifications
+bindsym F10 exec --no-startup-id amixer -q set Master 5%+ && \
+    notify-send -t 500 -u low -h int:value:"$(amixer get Master | grep -oP '\d+%' | head -1 | tr -d '%')" "Volume: $(amixer get Master | grep -oP '\d+%' | head -1)" -r 9999
 
-# brightness control
-bindsym F7 exec --no-startup-id brightnessctl set 5%+
-bindsym F6 exec --no-startup-id brightnessctl set 5%-
+bindsym F9 exec --no-startup-id amixer -q set Master 5%- && \
+    notify-send -t 500 -u low -h int:value:"$(amixer get Master | grep -oP '\d+%' | head -1 | tr -d '%')" "Volume: $(amixer get Master | grep -oP '\d+%' | head -1)" -r 9999
+bindsym F8 exec --no-startup-id amixer -q set Master toggle && \
+    notify-send -t 350 -u low "Volume $(amixer get Master | grep -oP '\[on\]|\[off\]' | head -1 | tr -d '[]')" -r 9999
+
+#capture channel with dunst notifications 
+bindsym $mod+F10 exec --no-startup-id amixer -q set Capture 5%+ && \
+    notify-send -t 500 -u low -h int:value:"$(amixer get Capture | grep -oP '\d+%' | head -1 | tr -d '%')" "Microphone: $(amixer get Capture | grep -oP '\d+%' | head -1)" -r 9999
+
+bindsym $mod+F9 exec --no-startup-id amixer -q set Capture 5%- && \
+    notify-send -t 500 -u low -h int:value:"$(amixer get Capture | grep -oP '\d+%' | head -1 | tr -d '%')" "Microphone: $(amixer get Capture | grep -oP '\d+%' | head -1)" -r 9999
+
+bindsym $mod+F8 exec --no-startup-id amixer -q set Capture toggle && \
+    notify-send -t 350 -u low "Microphone $(amixer get Capture | grep -oP '\[on\]|\[off\]' | head -1 | tr -d '[]')" -r 9999
+
+# brightness control with dunst notifications
+bindsym F7 exec --no-startup-id brightnessctl set 5%+ && \
+    notify-send -t 500 -u low -h int:value:"$(brightnessctl g | awk -v max=$(brightnessctl m) '{print int(($1/max)*100)}')" "Brightness" -r 9999
+
+bindsym F6 exec --no-startup-id brightnessctl set 5%- && \
+    notify-send -t 500 -u low -h int:value:"$(brightnessctl g | awk -v max=$(brightnessctl m) '{print int(($1/max)*100)}')" "Brightness" -r 9999
 
 # whisker menu
-bindsym $mod+Shift+x exec --no-startup-id xfce4-popup-whiskermenu
+# bindsym $mod+Shift+x exec --no-startup-id xfce4-popup-whiskermenu
 
-# external display
-bindsym $mod+Shift+o exec --no-startup-id xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --off --output VIRTUAL1 --off
-bindsym $mod+Shift+p exec --no-startup-id xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal --output VIRTUAL1 --off
+# external display with dunst notifications
+bindsym $mod+Shift+o exec --no-startup-id xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --off --output VIRTUAL1 --off && \
+    notify-send -t 500 "External Display Off" -r 9999
+
+bindsym $mod+Shift+p exec --no-startup-id xrandr --output eDP1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output HDMI1 --mode 1920x1080 --pos 1366x0 --rotate normal --output VIRTUAL1 --off && \
+    notify-send -t 500 "External Display On" -r 999
 
 # reset nitrogen
-bindsym $mod+Shift+i exec --no-startup-id nitrogen --restore
+bindsym $mod+Shift+i exec --no-startup-id nitrogen --restore && \
+    notify-send -t 500 "Wallpaper Refreshed" -r 9999
