@@ -257,15 +257,18 @@ bindsym $mod+shift+f move workspace to output left
 # audio control
 
 #master channel with dunst notifications
+
 bindsym F10 exec --no-startup-id amixer -q set Master 5%+ && \
     notify-send -t 500 -u low -h int:value:"$(amixer get Master | grep -oP '\d+%' | head -1 | tr -d '%')" "Volume: $(amixer get Master | grep -oP '\d+%' | head -1)" -r 9999
 
 bindsym F9 exec --no-startup-id amixer -q set Master 5%- && \
     notify-send -t 500 -u low -h int:value:"$(amixer get Master | grep -oP '\d+%' | head -1 | tr -d '%')" "Volume: $(amixer get Master | grep -oP '\d+%' | head -1)" -r 9999
+
 bindsym F8 exec --no-startup-id amixer -q set Master toggle && \
     notify-send -t 350 -u low "Volume $(amixer get Master | grep -oP '\[on\]|\[off\]' | head -1 | tr -d '[]')" -r 9999
 
 #capture channel with dunst notifications 
+
 bindsym $mod+F10 exec --no-startup-id amixer -q set Capture 5%+ && \
     notify-send -t 500 -u low -h int:value:"$(amixer get Capture | grep -oP '\d+%' | head -1 | tr -d '%')" "Microphone: $(amixer get Capture | grep -oP '\d+%' | head -1)" -r 9999
 
@@ -276,6 +279,7 @@ bindsym $mod+F8 exec --no-startup-id amixer -q set Capture toggle && \
     notify-send -t 350 -u low "Microphone $(amixer get Capture | grep -oP '\[on\]|\[off\]' | head -1 | tr -d '[]')" -r 9999
 
 # brightness control with dunst notifications
+
 bindsym F7 exec --no-startup-id brightnessctl set 5%+ && \
     notify-send -t 500 -u low -h int:value:"$(brightnessctl g | awk -v max=$(brightnessctl m) '{print int(($1/max)*100)}')" "Brightness" -r 9999
 
